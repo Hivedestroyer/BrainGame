@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
     float GroundCheckLength = 0.05f;
 
     public bool hasJumped;
+    public Animator Canimator;
 
     MoverOnRails Controller;
     void Start()
@@ -44,7 +45,9 @@ public class PlayerMove : MonoBehaviour
                 
             }
         }
-            
+
+        Canimator.SetFloat("VelZ", Controller.Velocity.z);
+
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -69,12 +72,16 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        Canimator.SetBool("JumpAnim", false);
+        if (!checkTrap)
+        {
+            //To make X value 0 means locate the character just above the rail
+            Controller.Velocity.x = -Controller.Position.x * 5f;
+            //Changing Z value in local position means moving toward rail direction
+            Controller.Velocity.z += Input.GetAxisRaw("Horizontal") * Accelaration * Time.fixedDeltaTime;
+            Controller.Velocity.z -= Controller.Velocity.z * Drag * Time.fixedDeltaTime;
+        }
 
-        //To make X value 0 means locate the character just above the rail
-        Controller.Velocity.x = -Controller.Position.x * 5f;
-        //Changing Z value in local position means moving toward rail direction
-        Controller.Velocity.z += Input.GetAxisRaw("Horizontal") * Accelaration * Time.fixedDeltaTime;
-        Controller.Velocity.z -= Controller.Velocity.z * Drag * Time.fixedDeltaTime;
         //Y+ axis = Upwoard (depends on rail rotation)
         var distance = CheckGroundDistance();
         if (distance != null)
@@ -85,6 +92,9 @@ public class PlayerMove : MonoBehaviour
             {
                 hasJumped = false;
                 Controller.Velocity.y = JumpSpeed;
+                Canimator.SetBool("JumpAnim", true);
+                Controller.Velocity.z += Accelaration * Time.fixedDeltaTime;
+                Controller.Velocity.z -= Controller.Velocity.z * Drag * Time.fixedDeltaTime;
             }
             if (checkTrap)
             {

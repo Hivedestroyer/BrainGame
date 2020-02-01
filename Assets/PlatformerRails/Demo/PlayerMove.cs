@@ -4,6 +4,8 @@ using PlatformerRails;
 [RequireComponent(typeof(MoverOnRails))]
 public class PlayerMove : MonoBehaviour
 {
+    public bool checkTrap;
+    public Rigidbody playerRigidbody;
     [SerializeField]
     float Accelaration = 20f;
     [SerializeField]
@@ -24,6 +26,8 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         Controller = GetComponent<MoverOnRails>();
+
+        playerRigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -42,9 +46,30 @@ public class PlayerMove : MonoBehaviour
         }
             
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.layer == 9)
+        {
+            Debug.Log("TEST1");
+            checkTrap = true;
+
+        }
+
+
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 9)
+        {
+            checkTrap = false;
+        }
+    }
 
     void FixedUpdate()
     {
+
         //To make X value 0 means locate the character just above the rail
         Controller.Velocity.x = -Controller.Position.x * 5f;
         //Changing Z value in local position means moving toward rail direction
@@ -56,11 +81,23 @@ public class PlayerMove : MonoBehaviour
         {
             Controller.Velocity.y = (GroundDistance - distance.Value) / Time.fixedDeltaTime; //ths results for smooth move on slopes
             if (hasJumped == true)
+
             {
                 hasJumped = false;
                 Controller.Velocity.y = JumpSpeed;
             }
-                
+            if (checkTrap)
+            {
+                Controller.Velocity.y += JumpSpeed;
+                if (Controller.Velocity.x > 0)
+                {
+                    Controller.Velocity.z += -12f;
+                }
+                else
+                {
+                    Controller.Velocity.z += 12f;
+                }
+            }
         }
         else
             Controller.Velocity.y -= Gravity * Time.fixedDeltaTime;

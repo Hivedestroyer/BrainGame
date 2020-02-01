@@ -12,7 +12,7 @@ namespace PlatformerRails
         public Vector3 Velocity;
 
         IRail rail;
-        Rigidbody rigidbody;
+        public Rigidbody rigidbody;
 
         void Reset()
         {

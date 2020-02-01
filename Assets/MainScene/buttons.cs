@@ -22,7 +22,7 @@ public class buttons : MonoBehaviour
     public void startButton()
     //to be used to change scene on start button press
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("GameplayScene");
 
     }
 

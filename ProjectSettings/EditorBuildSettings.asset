@@ -11,13 +11,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MainScene/Main.unity
     guid: 257982bc9f1d48745b7b5bd234c416e6
-  - enabled: 1
-    path: Assets/MainScene/goodEnding.unity
-    guid: 3042aca83fd59de4492d17d93569c507
-  - enabled: 1
-    path: Assets/MainScene/badEnding.unity
-    guid: 553d64b6696bb7b4f955cbc6fd07e12d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/GameplayScene.unity
     guid: b768055371c24b44ab1ca84244c14dd8
+  - enabled: 1
+    path: Assets/MainScene/goodEnding.unity
+    guid: 1f33140fedddf694aa271f416a0c4a63
+  - enabled: 1
+    path: Assets/MainScene/badEnding.unity
+    guid: 0731645470184f845b234455cbfa6593
   m_configObjects: {}

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class buttons : MonoBehaviour
 {
+    public AudioSource audioS;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,8 @@ public class buttons : MonoBehaviour
     public void startButton()
     //to be used to change scene on start button press
     {
-        SceneManager.LoadScene("GameplayScene");
+
+        StartCoroutine(ExampleCoroutine());
 
     }
 
@@ -30,5 +32,14 @@ public class buttons : MonoBehaviour
      //to be used to exit game on exit button press
     {
         Application.Quit();
+    }
+
+    IEnumerator ExampleCoroutine()
+    {
+
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("GameplayScene");
+
     }
 }

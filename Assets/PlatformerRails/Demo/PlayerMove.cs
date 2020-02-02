@@ -1,9 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using PlatformerRails;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(MoverOnRails))]
 public class PlayerMove : MonoBehaviour
 {
+    public AudioSource audios;
+
+    public GameObject mainCam;
+    public PostProcessProfile p1;
+    public PostProcessProfile p2;
+    public PostProcessProfile p3;
+    public int health;
+    public bool checkwait;
     public bool checkTrap;
     public Rigidbody playerRigidbody;
     [SerializeField]
@@ -26,6 +38,8 @@ public class PlayerMove : MonoBehaviour
     MoverOnRails Controller;
     void Start()
     {
+        audios = GetComponent<AudioSource>();
+        health = 4;
         Controller = GetComponent<MoverOnRails>();
 
         playerRigidbody = GetComponent<Rigidbody>();
@@ -57,6 +71,10 @@ public class PlayerMove : MonoBehaviour
             float current_veloctiy = Controller.Velocity.z;
             Debug.Log(current_veloctiy);
             checkTrap = true;
+            if (checkwait == false)
+            {
+                StartCoroutine(healthstop());
+            }
 
         }
 
@@ -96,6 +114,7 @@ public class PlayerMove : MonoBehaviour
                 Canimator.SetBool("JumpAnim", true);
                 Controller.Velocity.z += Accelaration * Time.fixedDeltaTime;
                 Controller.Velocity.z -= Controller.Velocity.z * Drag * Time.fixedDeltaTime;
+                audios.Play();
             }
             if (checkTrap)
             {
@@ -123,6 +142,33 @@ public class PlayerMove : MonoBehaviour
         else
             return null;
     }
+
+    public IEnumerator healthstop()
+    {
+        checkwait = true;
+        yield return new WaitForSeconds(1);
+        health--;
+        PostProcessVolume volume = mainCam.GetComponent<PostProcessVolume>();
+        switch (health)
+        {
+            case 1:
+                volume.profile = p3;
+  
+                break;
+            case 2:
+                volume.profile = p2;
+                break;
+            case 3:
+                volume.profile = p1;
+                break;
+            default:
+                SceneManager.LoadScene("badEnding");
+                break;
+        }
+        checkwait = false;
+    }
+
+    
 
 #if UNITY_EDITOR
     void OnDrawGizmos()

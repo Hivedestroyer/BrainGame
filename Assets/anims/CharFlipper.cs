@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharFlipper : MonoBehaviour
 {
+    public PlayerMove pmove;
     Animator Canimator;
     public Vector3 v;
     public Vector3 a;
@@ -11,6 +12,7 @@ public class CharFlipper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         Canimator = GetComponent<Animator>();
     }
 
@@ -36,5 +38,6 @@ public class CharFlipper : MonoBehaviour
             }
                 
         }
+
     }
 }

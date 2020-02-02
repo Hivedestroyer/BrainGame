@@ -54,7 +54,8 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.layer == 9)
         {
-            Debug.Log("TEST1");
+            float current_veloctiy = Controller.Velocity.z;
+            Debug.Log(current_veloctiy);
             checkTrap = true;
 
         }
@@ -99,9 +100,9 @@ public class PlayerMove : MonoBehaviour
             if (checkTrap)
             {
                 Controller.Velocity.y += JumpSpeed;
-                if (Controller.Velocity.x > 0)
+                if (Controller.Velocity.z > 0)
                 {
-                    Controller.Velocity.z += -12f;
+                    Controller.Velocity.z -= 12f;
                 }
                 else
                 {
